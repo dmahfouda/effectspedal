@@ -6,16 +6,21 @@ class App extends Component {
   constructor(props){
     super(props);
 
-    this.state = {currentKey: ''}
+    this.state = {
+      currentKeyBuffer: '',
+      wordsArray: []
+    }
     this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
   handleKeyPress(e) {
-    let s = this.state.currentKey
+    let s = this.state.currentKeyBuffer
     console.log(`s: ${s}`)
-    this.setState({currentKey: s+String.fromCharCode(e.keyCode)});
-    if(e.keycode == 32){
-      console.log('you hit space')
+    this.setState({currentKeyBuffer: s+String.fromCharCode(e.keyCode)});
+    if (e.keyCode == 32) {
+      this.state.wordsArray.push(this.state.currentKeyBuffer)
+      this.state.currentKeyBuffer = ''
+      console.log(this.state.wordsArray)
     }
   }
 
@@ -30,7 +35,8 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        {this.state.currentKey}
+        {this.state.wordsArray.join(' ')}
+        {this.state.currentKeyBuffer}
       </div>
     );
   }
