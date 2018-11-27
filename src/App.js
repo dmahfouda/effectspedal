@@ -3,23 +3,31 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+  constructor(props){
+    super(props);
+    
+    this.state = {currentKey: ''}
+    this.handleKeyPress = this.handleKeyPress.bind(this);
+  }
+
+  handleKeyPress(e) {
+    let s = this.state.currentKey
+    console.log(`s: ${s}`)
+    this.setState({currentKey: s+String.fromCharCode(e.keyCode)});
+  }
+
+  componentDidMount() {
+    document.addEventListener('keydown', this.handleKeyPress);
+  }
+  
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyPress);
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        {this.state.currentKey}
       </div>
     );
   }
