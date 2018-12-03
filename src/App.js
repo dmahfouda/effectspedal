@@ -10,16 +10,23 @@ class App extends Component {
       currentKeyBuffer: '',
       wordsArray: []
     }
-    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
-  handleKeyPress(e) {
+  handleKeyPress = (e) => {
     let s = this.state.currentKeyBuffer
     console.log(`s: ${s}`)
     this.setState({currentKeyBuffer: s+String.fromCharCode(e.keyCode)});
     if (e.keyCode == 32) {
-      this.state.wordsArray.push(this.state.currentKeyBuffer)
-      this.state.currentKeyBuffer = ''
+      this.setState({
+        currentKeyBuffer: '',
+        wordsArray: [
+          ...this.state.wordsArray, 
+          {
+            word: this.state.currentKeyBuffer, 
+            decisionSpace: ['thing']
+          }
+        ]
+      })
       console.log(this.state.wordsArray)
     }
   }
@@ -32,14 +39,32 @@ class App extends Component {
     document.removeEventListener('keydown', this.handleKeyPress);
   }
 
+  // alternateWord = () => {
+  //   setInterval(()=>{
+
+  //   }, 1000)
+  // }
+
+  renderWords = () => {
+    return this.state.wordsArray.map(({word,decisionSpace})=>{
+      return(
+        <div className='word-container'>
+          <div className='active'>{word}</div>
+          {decisionSpace.map((word,index)=>(<div className='passive' key={index}>{word}</div>))}
+        </div>
+      )
+    })
+  }
+
   render() {
     return (
       <div className="App">
-        {this.state.wordsArray.join(' ')}
-        {this.state.currentKeyBuffer}
+        <div className='container'>{this.renderWords()}</div>
+        <span>{this.state.currentKeyBuffer}</span>
       </div>
     );
   }
 }
 
 export default App;
+// {this.state.wordsArray.join(' ')}

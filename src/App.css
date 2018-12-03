@@ -30,3 +30,23 @@
     transform: rotate(360deg);
   }
 }
+
+.word-container {
+  position: relative;
+  margin-left: 5px;
+}
+
+.container {
+  display: flex;
+}
+
+.active {
+  z-index: 1;
+  position: relative;
+}
+
+.passive {
+  z-index: 0;
+  position: absolute;
+  display: none;
+}
