@@ -31,22 +31,24 @@
   }
 }
 
+.container {
+  display: flex;
+  font-family: monospace;
+}
+
 .word-container {
   position: relative;
   margin-left: 5px;
 }
 
-.container {
-  display: flex;
-}
-
 .active {
   z-index: 1;
-  position: relative;
+  position: absolute;
+  margin-left: 10px;
 }
 
 .passive {
   z-index: 0;
   position: absolute;
-  display: none;
-}
+/*  display: none;
+*/}

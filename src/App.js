@@ -27,8 +27,21 @@ class App extends Component {
           }
         ]
       })
+      this.setCSSWidth('.word-container')
       console.log(this.state.wordsArray)
     }
+  }
+
+  getWidth = (selector) => {
+    let activeBlock = document.querySelector(selector)
+    return activeBlock.getBoundingClientRect().width
+  }
+
+  setCSSWidth = (selector) => {
+    let wordContainerBlocks = document.querySelectorAll(selector)
+      wordContainerBlocks.forEach((block)=>{
+        block.style.width = this.getWidth(".active")+'px'
+      })
   }
 
   componentDidMount() {
