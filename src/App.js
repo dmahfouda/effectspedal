@@ -13,6 +13,20 @@ class App extends Component {
     }
   }
 
+//bad performance here maybe switch directly by indexing
+  alternateWords = () => {
+    // console.log(document.querySelectorAll('.word-container'))
+    let wordContainers = document.querySelectorAll('.word-container')
+    wordContainers.forEach(wordContainer=>{
+      let altWords = wordContainer.childNodes
+      let changeWordIndex = Math.floor(Math.random()*altWords.length)
+        altWords.forEach(word=>{
+          word.className = 'passive'
+        })
+      altWords[changeWordIndex].className = 'active'  
+    })
+  }
+
   handleKeyPress = (e) => {
     let s = this.state.currentKeyBuffer
     this.setState({currentKeyBuffer: s+String.fromCharCode(e.keyCode)});
@@ -33,6 +47,7 @@ class App extends Component {
             }
           ]
         })
+        this.alternateWords()
       })
     }
   }
@@ -42,12 +57,11 @@ class App extends Component {
   }
 
   renderWords = () => {
-    this.state.wordsArray.forEach((wordObject) => { 
+    return this.state.wordsArray.map((wordObject) => { 
       return(
         <div className='word-container'>
-          /*<div className='active'>{word}</div>
-          {decisionSpace.map((word,index)=>(<div className='passive' key={index}>{word}</div>))}*/
-          <div className='active'>{wordObject.decisionSpace[Math.floor(Math.random()*wordObject.decisionSpace.length)]}</div>
+          <div className='active'>{wordObject.word}</div>
+          {wordObject.decisionSpace.map(word => { return <div className='passive'>{word}</div>})}
         </div>
       )
     })

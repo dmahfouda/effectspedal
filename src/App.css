@@ -57,5 +57,5 @@
 .passive {
   z-index: 0;
   position: absolute;
-/*  display: none;
-*/}
+  display: none;
+}
