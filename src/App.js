@@ -16,16 +16,26 @@ class App extends Component {
 //bad performance here maybe switch directly by indexing
   alternateWords = () => {
     // console.log(document.querySelectorAll('.word-container'))
-    let wordContainers = document.querySelectorAll('.word-container')
-    wordContainers.forEach(wordContainer=>{
-      let altWords = wordContainer.childNodes
-      let changeWordIndex = Math.floor(Math.random()*altWords.length)
+      let wordContainers = document.querySelectorAll('.word-container')
+      if (wordContainers.length > 0){
+        let altWords = wordContainers[Math.floor(Math.random()*wordContainers.length)].childNodes
+        let changeWordIndex = Math.floor(Math.random()*altWords.length)
         altWords.forEach(word=>{
           word.className = 'passive'
         })
-      altWords[changeWordIndex].className = 'active'  
-    })
+        altWords[changeWordIndex].className = 'active'
+    }
+    // wordContainers.forEach(wordContainer=>{
+      // let altWords = wordContainer.childNodes
+      // let changeWordIndex = Math.floor(Math.random()*altWords.length)
+      //   altWords.forEach(word=>{
+      //     word.className = 'passive'
+      //   })
+      // altWords[changeWordIndex].className = 'active'
   }
+
+  // setInterval(alternateWords,5000)
+
 
   handleKeyPress = (e) => {
     let s = this.state.currentKeyBuffer
@@ -40,24 +50,32 @@ class App extends Component {
         this.setState({
           currentKeyBuffer: '',
           wordsArray: [
-            ...this.state.wordsArray, 
+            ...this.state.wordsArray,
             {
-              word: this.state.currentKeyBuffer, 
+              word: this.state.currentKeyBuffer,
               decisionSpace: res.data.antonyms
             }
           ]
         })
-        this.alternateWords()
       })
+    }
+  }
+  handleKeyDown = (e) => {
+    let s = this.state.currentKeyBuffer
+    if (e.keyCode == 46 || e.keyCode == 8) {
+      this.setState({currentKeyBuffer: s.slice(0,s.length-1)})
     }
   }
 
   componentDidMount() {
-    document.addEventListener('keydown', this.handleKeyPress);
+    document.addEventListener('keydown', this.handleKeyDown)
+    document.addEventListener('keypress', this.handleKeyPress)
+    setInterval(this.alternateWords,1000)
+
   }
 
   renderWords = () => {
-    return this.state.wordsArray.map((wordObject) => { 
+    return this.state.wordsArray.map((wordObject) => {
       return(
         <div className='word-container'>
           <div className='active'>{wordObject.word}</div>
