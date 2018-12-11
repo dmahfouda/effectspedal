@@ -57,6 +57,13 @@ class App extends Component {
             }
           ]
         })
+        axios.post('http://localhost:3001/save', this.state.wordsArray)
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
       })
     }
   }
@@ -78,8 +85,8 @@ class App extends Component {
     return this.state.wordsArray.map((wordObject) => {
       return(
         <div className='word-container'>
-          <div className='active'>{wordObject.word}</div>
-          {wordObject.decisionSpace.map(word => { return <div className='passive'>{word}</div>})}
+          <span className='active'>{wordObject.word}</span>
+          {wordObject.decisionSpace.map(word => { return <span className='passive'>{word}</span>})}
         </div>
       )
     })
@@ -88,8 +95,10 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div className='container'>{this.renderWords()}</div>
-        <span>{this.state.currentKeyBuffer}</span>
+        <div className='container'>
+            <div className='input'>{this.state.currentKeyBuffer}</div>
+            {this.renderWords()}
+        </div>
       </div>
     );
   }
