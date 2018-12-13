@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
 
@@ -75,7 +74,7 @@ class App extends Component {
                 console.log('post error')
                 console.log(error);
             })
-            
+
         })
         .catch(function (error) {
             console.log('post error')
