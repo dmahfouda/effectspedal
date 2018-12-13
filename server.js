@@ -1,26 +1,29 @@
-var mongoose = require('mongoose')
-
+const mongoose = require('mongoose')
 const express = require('express')
 const tcom = require('thesaurus-com')
-const app = express()
+const bodyParser = require('body-parser')
 const cors = require('cors')
+
+const app = express()
 const port = 3001
 
 mongoose.connect('mongodb://localhost/test')
-var db = mongoose.connection;
+
+const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   // we're connected!
   console.log('connnected')
 });
 
-var wordsArraySchema = new mongoose.Schema({
+let wordsArraySchema = new mongoose.Schema({
   words: Array
 });
 
-var wordsArray = mongoose.model('wordsArray', wordsArraySchema);
+let wordsArray = mongoose.model('wordsArray', wordsArraySchema);
 
 app.use(cors())
+app.use(bodyParser.json())
 
 app.get('/antonym', (req, res) => {
 	console.log(`req: ${req.query.word}`)
@@ -30,7 +33,8 @@ app.get('/antonym', (req, res) => {
 app.post('/save', (req, res) => {
 	// console.log(req)
     console.log('postreq')
-    res.send('success')
+    console.log(req.body)
+    res.send('post success')
 })
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

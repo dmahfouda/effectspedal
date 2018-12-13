@@ -60,29 +60,29 @@ class App extends Component {
                 }
               ]
             })
+
+            console.log('posting')
+            axios.post('http://localhost:3001/save', this.state.wordsArray
+            )
+            // axios.post('http://localhost:3001/save',{
+            //     something: 'something'
+            // })
+            .then(function (response) {
+                console.log('successful post response')
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log('post error')
+                console.log(error);
+            })
+            
         })
         .catch(function (error) {
             console.log('post error')
             console.log(error);
         })
 
-        console.log('posting')
-        axios.post('http://localhost:3001/save', {
-            firstName: 'Fred',
-            lastName: 'Flintstone'
-          }
-        )
-        // axios.post('http://localhost:3001/save',{
-        //     something: 'something'
-        // })
-        .then(function (response) {
-            console.log('successful post response')
-            console.log(response);
-        })
-        .catch(function (error) {
-            console.log('post error')
-            console.log(error);
-        })
+
       }
   }
 
