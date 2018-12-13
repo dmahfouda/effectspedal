@@ -28,8 +28,9 @@ app.get('/antonym', (req, res) => {
 })
 
 app.post('/save', (req, res) => {
-	console.log('postreq')
-	console.log(req)
+	// console.log(req)
+    console.log('postreq')
+    res.send('success')
 })
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

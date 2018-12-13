@@ -38,35 +38,54 @@ class App extends Component {
 
 
   handleKeyPress = (e) => {
+
     let s = this.state.currentKeyBuffer
     this.setState({currentKeyBuffer: s+String.fromCharCode(e.keyCode)});
+
     if (e.keyCode == 32) {
       console.log(`this.state.currentKeyBuffer ${this.state.currentKeyBuffer}`)
+
       axios.get(`http://localhost:3001/antonym`,{params:{word:this.state.currentKeyBuffer}})
         .then(res => {
-          const words = res.data;
-          console.log(words)
-          // this.setState({ persons });
-        this.setState({
-          currentKeyBuffer: '',
-          wordsArray: [
-            ...this.state.wordsArray,
-            {
-              word: this.state.currentKeyBuffer,
-              decisionSpace: res.data.antonyms
-            }
-          ]
+            console.log('successful get')
+            const words = res.data;
+            console.log(words)
+            this.setState({
+              currentKeyBuffer: '',
+              wordsArray: [
+                ...this.state.wordsArray,
+                {
+                  word: this.state.currentKeyBuffer,
+                  decisionSpace: res.data.antonyms
+                }
+              ]
+            })
         })
-        axios.post('http://localhost:3001/save', this.state.wordsArray)
+        .catch(function (error) {
+            console.log('post error')
+            console.log(error);
+        })
+
+        console.log('posting')
+        axios.post('http://localhost:3001/save', {
+            firstName: 'Fred',
+            lastName: 'Flintstone'
+          }
+        )
+        // axios.post('http://localhost:3001/save',{
+        //     something: 'something'
+        // })
         .then(function (response) {
+            console.log('successful post response')
             console.log(response);
         })
         .catch(function (error) {
+            console.log('post error')
             console.log(error);
         })
-      })
-    }
+      }
   }
+
   handleKeyDown = (e) => {
     let s = this.state.currentKeyBuffer
     if (e.keyCode == 46 || e.keyCode == 8) {
