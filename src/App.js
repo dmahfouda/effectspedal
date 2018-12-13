@@ -46,9 +46,7 @@ class App extends Component {
 
       axios.get(`http://localhost:3001/antonym`,{params:{word:this.state.currentKeyBuffer}})
         .then(res => {
-            console.log('successful get')
             const words = res.data;
-            console.log(words)
             this.setState({
               currentKeyBuffer: '',
               wordsArray: [
@@ -60,24 +58,17 @@ class App extends Component {
               ]
             })
 
-            console.log('posting')
             axios.post('http://localhost:3001/save', this.state.wordsArray
             )
-            // axios.post('http://localhost:3001/save',{
-            //     something: 'something'
-            // })
             .then(function (response) {
-                console.log('successful post response')
                 console.log(response);
             })
             .catch(function (error) {
-                console.log('post error')
                 console.log(error);
             })
 
         })
         .catch(function (error) {
-            console.log('post error')
             console.log(error);
         })
 
@@ -93,10 +84,16 @@ class App extends Component {
   }
 
   componentDidMount() {
+    axios.get('http://localhost:3001/newdocument', {params:{}})
+    .then(function (response) {
+        console.log(response);
+    })
+    .catch(function (error) {
+        console.log(error);
+    })
     document.addEventListener('keydown', this.handleKeyDown)
     document.addEventListener('keypress', this.handleKeyPress)
-    setInterval(this.alternateWords,1000)
-
+    setInterval(this.alternateWords,500)
   }
 
   renderWords = () => {

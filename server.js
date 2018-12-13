@@ -25,6 +25,16 @@ let wordsArray = mongoose.model('wordsArray', wordsArraySchema);
 app.use(cors())
 app.use(bodyParser.json())
 
+app.get('/newdocument', (req, res) => {
+    var words = new wordsArray({})
+    console.log('logged')
+
+    words.save(function (err, words) {
+        if (err) return console.error(err)
+        res.send(words._id)
+    })
+})
+
 app.get('/antonym', (req, res) => {
 	console.log(`req: ${req.query.word}`)
 	res.send(tcom.search(req.query.word))
