@@ -18,7 +18,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build_and_start": "npm run build && node server.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -40,6 +41,5 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/dmahfouda/effectspedal/issues"
-  },
-  "homepage": "https://github.com/dmahfouda/effectspedal#readme"
+  }
 }

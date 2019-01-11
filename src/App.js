@@ -17,9 +17,9 @@ class App extends Component {
     // console.log(document.querySelectorAll('.word-container'))
       let wordContainers = document.querySelectorAll('.word-container')
       if (wordContainers.length > 0){
-        let altWords = wordContainers[Math.floor(Math.random()*wordContainers.length)].childNodes
-        let changeWordIndex = Math.floor(Math.random()*altWords.length)
-        altWords.forEach(word=>{
+        let altWords = wordContainers[Math.floor(Math.random() * wordContainers.length)].childNodes
+        let changeWordIndex = Math.floor(Math.random() * altWords.length)
+        altWords.forEach(word => {
           word.className = 'passive'
         })
         altWords[changeWordIndex].className = 'active'
@@ -83,6 +83,19 @@ class App extends Component {
     }
   }
 
+  getToken = () => {
+      axios.post('http://localhost:3001/token')
+      .then(function (response) {
+          const token = response.data.token;
+          if (!token) throw new Error('did not get visit token from server')
+          window.history.pushState({}, null, `/${token}`)
+      })
+      .catch(function (error) {
+          console.log('post error')
+          console.log(error)
+      })
+  }
+
   componentDidMount() {
     axios.get('http://localhost:3001/newdocument', {params:{}})
     .then(function (response) {
@@ -93,7 +106,12 @@ class App extends Component {
     })
     document.addEventListener('keydown', this.handleKeyDown)
     document.addEventListener('keypress', this.handleKeyPress)
+<<<<<<< HEAD
     setInterval(this.alternateWords,500)
+=======
+    setInterval(this.alternateWords,1000)
+    this.getToken()
+>>>>>>> always-send-index
   }
 
   renderWords = () => {

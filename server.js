@@ -3,6 +3,7 @@ const express = require('express')
 const tcom = require('thesaurus-com')
 const bodyParser = require('body-parser')
 const cors = require('cors')
+const path = require('path')
 
 const app = express()
 const port = 3001
@@ -14,11 +15,11 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   // we're connected!
   console.log('connnected')
-});
+})
 
 let wordsArraySchema = new mongoose.Schema({
   words: Array
-});
+})
 
 let wordsArray = mongoose.model('wordsArray', wordsArraySchema);
 
@@ -45,6 +46,22 @@ app.post('/save', (req, res) => {
     console.log('postreq')
     console.log(req.body)
     res.send('post success')
+})
+
+app.post('/token', (req, res) => {
+    console.log('POST /token')
+
+    const page = new wordsArray()
+    
+    page.save().then(() => {
+        res.send({token: page._id})
+    })
+})
+
+app.use(express.static('build'))
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, './build/index.html'))
 })
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
