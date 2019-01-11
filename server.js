@@ -38,10 +38,19 @@ app.post('/save', (req, res) => {
     res.send('post success')
 })
 
+app.post('/token', (req, res) => {
+	// console.log(req)
+    console.log('token')
+    console.log(req.body)
+    const page = new wordsArray()
+    page.save().then( () => console.log('page saved', page._id))
+    res.send('post success')
+})
+
 app.use(express.static('build'))
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, './build/index.html'))
+    res.sendFile(path.join(__dirname, './build/index.html'))
 })
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

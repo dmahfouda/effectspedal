@@ -17,9 +17,9 @@ class App extends Component {
     // console.log(document.querySelectorAll('.word-container'))
       let wordContainers = document.querySelectorAll('.word-container')
       if (wordContainers.length > 0){
-        let altWords = wordContainers[Math.floor(Math.random()*wordContainers.length)].childNodes
-        let changeWordIndex = Math.floor(Math.random()*altWords.length)
-        altWords.forEach(word=>{
+        let altWords = wordContainers[Math.floor(Math.random() * wordContainers.length)].childNodes
+        let changeWordIndex = Math.floor(Math.random() * altWords.length)
+        altWords.forEach(word => {
           word.className = 'passive'
         })
         altWords[changeWordIndex].className = 'active'
@@ -92,11 +92,23 @@ class App extends Component {
     }
   }
 
+  getToken = () => {
+      axios.post('http://localhost:3001/token')
+      .then(function (response) {
+          console.log('successful post response')
+          console.log(response)
+      })
+      .catch(function (error) {
+          console.log('post error')
+          console.log(error)
+      })
+  }
+
   componentDidMount() {
     document.addEventListener('keydown', this.handleKeyDown)
     document.addEventListener('keypress', this.handleKeyPress)
     setInterval(this.alternateWords,1000)
-
+    this.getToken()
   }
 
   renderWords = () => {
