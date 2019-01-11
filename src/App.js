@@ -95,8 +95,9 @@ class App extends Component {
   getToken = () => {
       axios.post('http://localhost:3001/token')
       .then(function (response) {
-          console.log('successful post response')
-          console.log(response)
+          const token = response.data.token;
+          if (!token) throw new Error('did not get visit token from server')
+          window.history.pushState({}, null, `/${token}`)
       })
       .catch(function (error) {
           console.log('post error')

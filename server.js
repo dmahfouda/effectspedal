@@ -39,12 +39,13 @@ app.post('/save', (req, res) => {
 })
 
 app.post('/token', (req, res) => {
-	// console.log(req)
-    console.log('token')
-    console.log(req.body)
+    console.log('POST /token')
+
     const page = new wordsArray()
-    page.save().then( () => console.log('page saved', page._id))
-    res.send('post success')
+    
+    page.save().then(() => {
+        res.send({token: page._id})
+    })
 })
 
 app.use(express.static('build'))
