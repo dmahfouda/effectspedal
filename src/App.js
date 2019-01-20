@@ -24,55 +24,35 @@ class App extends Component {
         })
         altWords[changeWordIndex].className = 'active'
     }
-    // wordContainers.forEach(wordContainer=>{
-      // let altWords = wordContainer.childNodes
-      // let changeWordIndex = Math.floor(Math.random()*altWords.length)
-      //   altWords.forEach(word=>{
-      //     word.className = 'passive'
-      //   })
-      // altWords[changeWordIndex].className = 'active'
   }
-
-  // setInterval(alternateWords,5000)
-
 
   handleKeyPress = (e) => {
 
     let s = this.state.currentKeyBuffer
-    this.setState({currentKeyBuffer: s+String.fromCharCode(e.keyCode)});
+    this.setState({currentKeyBuffer: s+String.fromCharCode(e.keyCode)})
 
     if (e.keyCode == 32) {
-      console.log(`this.state.currentKeyBuffer ${this.state.currentKeyBuffer}`)
+        let lookup = this.state.currentKeyBuffer
+        this.setState({currentKeyBuffer: ''})
 
-      axios.get(`http://localhost:3001/antonym`,{params:{word:this.state.currentKeyBuffer}})
+      axios.get(`http://localhost:3001/antonym`,{params:{word:lookup}})
         .then(res => {
             const words = res.data;
             this.setState({
-              currentKeyBuffer: '',
               wordsArray: [
                 ...this.state.wordsArray,
                 {
-                  word: this.state.currentKeyBuffer,
+                  word: lookup,
                   decisionSpace: res.data.antonyms
                 }
               ]
             })
 
-            axios.post('http://localhost:3001/save', this.state.wordsArray
-            )
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
-
+            axios.post('http://localhost:3001/save', this.state.wordsArray)
+            .then(function (response) {console.log(response)})
+            .catch(function (error) {console.log(error)})
         })
-        .catch(function (error) {
-            console.log(error);
-        })
-
-
+        .catch(function (error) {console.log(error)})
       }
   }
 

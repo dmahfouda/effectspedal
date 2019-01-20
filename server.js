@@ -8,7 +8,7 @@ const path = require('path')
 const app = express()
 const port = 3001
 
-mongoose.connect('mongodb://localhost/test')
+mongoose.connect('mongodb://localhost/effectspedal')
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -52,7 +52,7 @@ app.post('/token', (req, res) => {
     console.log('POST /token')
 
     const page = new wordsArray()
-    
+
     page.save().then(() => {
         res.send({token: page._id})
     })
