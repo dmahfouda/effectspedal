@@ -106,12 +106,8 @@ class App extends Component {
     })
     document.addEventListener('keydown', this.handleKeyDown)
     document.addEventListener('keypress', this.handleKeyPress)
-<<<<<<< HEAD
-    setInterval(this.alternateWords,500)
-=======
     setInterval(this.alternateWords,1000)
     this.getToken()
->>>>>>> always-send-index
   }
 
   renderWords = () => {
