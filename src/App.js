@@ -8,7 +8,8 @@ class App extends Component {
 
     this.state = {
       currentKeyBuffer: '',
-      wordsArray: []
+      wordsArray: [],
+      token: '',
     }
   }
 
@@ -27,12 +28,11 @@ class App extends Component {
   }
 
   handleKeyPress = (e) => {
-
-    let s = this.state.currentKeyBuffer
-    this.setState({currentKeyBuffer: s+String.fromCharCode(e.keyCode)})
+    const { currentKeyBuffer, token } = this.state;
+    this.setState({currentKeyBuffer: currentKeyBuffer+String.fromCharCode(e.keyCode)})
 
     if (e.keyCode == 32) {
-        let lookup = this.state.currentKeyBuffer
+        let lookup = currentKeyBuffer
         this.setState({currentKeyBuffer: ''})
 
       axios.get(`http://localhost:3001/antonym`,{params:{word:lookup}})
@@ -48,7 +48,7 @@ class App extends Component {
               ]
             })
 
-            axios.post('http://localhost:3001/save', this.state.wordsArray)
+            axios.post('http://localhost:3001/save', { words: this.state.wordsArray, id: token })
             .then(function (response) {console.log(response)})
             .catch(function (error) {console.log(error)})
         })
@@ -64,11 +64,13 @@ class App extends Component {
   }
 
   getToken = () => {
+    const self = this;
       axios.post('http://localhost:3001/token')
       .then(function (response) {
           const token = response.data.token;
           if (!token) throw new Error('did not get visit token from server')
           window.history.pushState({}, null, `/${token}`)
+          self.setState({ token })
       })
       .catch(function (error) {
           console.log('post error')
@@ -76,18 +78,28 @@ class App extends Component {
       })
   }
 
+  getWords = (pathnameid) => {
+    axios.get('http://localhost:3001/pages/'+pathnameid)
+    .then( (response)=>{
+      this.setState({
+        wordsArray: response.data.words
+      })
+      console.log('set state to response.data')
+    })
+  }
+
   componentDidMount() {
-    axios.get('http://localhost:3001/newdocument', {params:{}})
-    .then(function (response) {
-        console.log(response);
-    })
-    .catch(function (error) {
-        console.log(error);
-    })
     document.addEventListener('keydown', this.handleKeyDown)
     document.addEventListener('keypress', this.handleKeyPress)
     setInterval(this.alternateWords,1000)
-    this.getToken()
+    if (window.location.pathname.replace(/\W/g, '')) {
+      var pathnameid=window.location.pathname.replace(/\W/g, '')
+      this.getWords(pathnameid)
+      this.setState({token: pathnameid})
+    } else {
+      console.log('dont have one')
+      this.getToken()
+    }
   }
 
   renderWords = () => {

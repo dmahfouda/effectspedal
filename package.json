@@ -12,14 +12,14 @@
     "react-dom": "^16.6.3",
     "react-router": "^4.3.1",
     "react-scripts": "2.1.1",
-    "thesaurus-com": "^1.2.0"
+    "thesaurus-com": "git@github.com:jackrr/node-thesaurus-com.git#c2725084e69a184abfce6e5f6a7cdd24267c246d"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "build_and_start": "npm run build && node server.js"
+    "build_and_start": "npm run build && node server/index.js"
   },
   "eslintConfig": {
     "extends": "react-app"
